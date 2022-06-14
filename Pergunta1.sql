@@ -29,72 +29,92 @@ create table category
     constraint pk_category primary key(category_name));
 
 create table simple_category
-    (constraint pk_simple_category primary key(simple_category_name)
-    constraint fk_simple_category foreign key(category) references category(category_name))
+    (simple_category_name   varchar(80) not null unique,
+    constraint pk_simple_category primary key(simple_category_name),
+    constraint fk_simple_category foreign key(simple_category_name) references category(category_name));
 
 create table super_category
-    (constraint pk_super_category primary key(super_category_name)
-    constraint fk_super_category foreign key(category) references category(category_name))
+    (super_category_name   varchar(80) not null unique,
+    constraint pk_super_category primary key(super_category_name),
+    constraint fk_super_category foreign key(super_category_name) references category(category_name));
 
-create table has_other
-    (constraint fk_has_other_super_category foreign key(super_category) references super_category
-    constraint fk_has_other_category foreign key(category) references category)
-
+--create table has_other
+ --   (super_category,
+   -- category,
+    --constraint fk_has_other_super_category foreign key(super_category) references super_category,
+    --constraint fk_has_other_category foreign key(category) references category);
 
 create table product
-   (EAN 	        numeric(13, 0)	not null unique,
-    descr 	varchar(80)	not null,
-    constraint pk_product primary key(EAN));
-    constraint fk_product_category foreign key(category) references category(category_name)
+   (EAN 	            numeric(13, 0) not null unique,
+    descr 	            varchar(80)	not null,
+    product_category    varchar(80) not null unique,
+    constraint pk_product primary key(EAN),
+    constraint fk_product_category foreign key(product_category) references category(category_name));
 
 create table has_category
-   (constraint fk_has_category_EAN foreign key(product) references product(EAN);	    		
-    constraint fk_has_category_name foreign key(category) references category(category_name))	    		
- 
+   (EAN 	            numeric(13, 0) not null unique,
+   category_name 	    varchar(80)	not null unique,
+   constraint fk_has_category_EAN foreign key(EAN) references product(EAN),  		
+   constraint fk_has_category_name foreign key(category_name) references category(category_name));
 
 create table IVM
-    (serial_number numeric(9, 0) not null unique
-    manuf   varchar(80) not null unique
-    constraint pk_IVM primary key(serial_number, manuf))
+    (serial_number      numeric(9, 0) not null unique,
+    manuf               varchar(80) not null unique,
+    constraint pk_IVM primary key(serial_number, manuf));
 
 create table retail_point
-    (retail_point_name  varchar(80) not null unique
-    district            varchar(80)
-    county              varchar(80)
-    constraint pk_retail_point primary key(retail_point_name))
+    (retail_point_name  varchar(80) not null unique,
+    district            varchar(80),
+    county              varchar(80),
+    constraint pk_retail_point primary key(retail_point_name));
 
-create table instaled_at
-   (constraint fk_instaled_at_IVM foreign key(IVM) references IVM(serial_number, manuf)
-   constraint fk_instaled_at_retail_point foreign key(retail_point) references retail_point(district, county))
+--create table instaled_at ERRO NO ENUNCIADO COMO É OBVIO
+  --  (serial_number numeric(9, 0) not null unique,
+    --manuf   varchar(80) not null unique,
+    --district            varchar(80) unique,
+    --county              varchar(80) unique,
+    --constraint fk_instaled_at_IVM foreign key(serial_number, manuf) references IVM(serial_number, manuf),
+    --constraint fk_instaled_at_retail_point foreign key(district, county) references retail_point(district, county));
 
 create table shelf
-    (shelf_number   numeric not null unique
-    height          numeric
-    shelf_name      varchar(80)
-    constraint fk_shelf foreign key(IVM) references IVM(serial_number, manuf))
+    (shelf_number   numeric not null unique,
+    shelf_name      varchar(80),
+    height          numeric,
+    serial_number   numeric(9, 0) not null unique, 
+    manuf           varchar(80) not null unique,
+    constraint fk_shelf foreign key(serial_number, manuf) references IVM(serial_number, manuf));
 
 create table planogram
-    (faces  numeric
-    units   numeric
-    loc     varchar(80)
-    constraint fk_planogram_EAN foreign key(product) references product(EAN)
-    constraint fk_planogram_shelf foreign key(shelf) references shelf(fk_shelf, shelf_number))
+    (faces          numeric,
+    units           numeric,
+    loc             varchar(80),
+    EAN             numeric(13, 0) not null unique,
+    serial_number   numeric(9, 0) not null unique, 
+    shelf_number    numeric not null unique,
+    manuf           varchar(80) not null unique,
+    constraint pk_planogram primary key(EAN, shelf_number, serial_number, manuf),
+    constraint fk_planogram_EAN foreign key(EAN) references product(EAN));
+    --constraint fk_planogram_shelf foreign key(serial_number, shelf_number, manuf) references shelf(serial_number, shelf_number, manuf));
 
 create table retailer
-    (TIN            numeric(9, 0) not null unique
-    retailer_name   varchar(80) unique)
+    (TIN            numeric(9, 0) not null unique,
+    retailer_name   varchar(80) unique,
+    constraint pk_retailer primary key(TIN));
 
 create table responsable_for
-   (constraint fk_responsable_for_IVM foreign key(IVM) references IVM(serial_number, manuf)
-   constraint fk_responsable_for_TIN foreign key(retailer) references retailer(TIN)
-   constraint fk_responsable_for_category foreign key(category) references category(category_name))
+   (serial_number       numeric(9, 0) not null unique,
+    manuf               varchar(80) not null unique,
+    TIN                 numeric(9, 0) not null unique,
+    category            varchar(80) not null unique, 
+    constraint fk_responsable_for_IVM foreign key(serial_number, manuf) references IVM(serial_number, manuf),
+    constraint fk_responsable_for_TIN foreign key(TIN) references retailer(TIN),
+    constraint fk_responsable_for_category foreign key(category) references category(category_name));
 
 create table replenishment_event
-    (constraint fk_replenishment_event_planogram foreign key(planogram) references planogram(fk_planogram_EAN, fk_planogram_shelf)
-    constraint fk_replenishment_event_retailer foreign key(retailer) references retailer(TIN))
-
-----------------------------------------
--- Populate Relations 
-----------------------------------------
-
--- inserts aqui
+   (EAN     numeric(13, 0) not null unique,
+    serial_number   numeric(9, 0) not null unique, 
+    shelf_number    numeric not null unique,
+    manuf           varchar(80) not null unique,
+    TIN     numeric(9, 0) not null unique,
+    constraint fk_replenishment_event_EAN foreign key(EAN, serial_number, shelf_number, manuf) references planogram(EAN, serial_number, shelf_number, manuf),
+    constraint fk_replenishment_event_TIN foreign key(TIN) references retailer(TIN));
