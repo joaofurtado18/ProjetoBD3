@@ -10,7 +10,7 @@
 | Índices                   |       3 |
 
 * Entrega
-DEADLINE: <2022-06-23 Thu>
+Entregar no máximo dia a <2022-06-23 Thu>.
 
 | queries.sql   | consultas sql                                   |
 | populate.sql  | preencher a bd                                  |
