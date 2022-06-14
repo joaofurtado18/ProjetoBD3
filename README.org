@@ -1,0 +1,20 @@
+* Relatório
+ + 8 páginas
+   
+| Item                      | Valores |
+|---------------------------+---------|
+| SQL                       |       5 |
+| Restrições de Integridade |       2 |
+| Aplicação                 |       6 |
+| Análise de dados          |       4 |
+| Índices                   |       3 |
+
+* Entrega
+DEADLINE: <2022-06-23 Thu>
+
+| queries.sql   | consultas sql                                   |
+| populate.sql  | preencher a bd                                  |
+| ICs.sql       | restricoes triggers e procedimentos armazenados |
+| view.sql      | criar a view                                    |
+| analytics.sql | consultas de análise de dados                   |
+| web/          | python e htlm (maybe css?)                      |
