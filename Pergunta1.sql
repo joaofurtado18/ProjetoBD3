@@ -83,11 +83,12 @@ create table instaled_at
 
 create table shelf
     (shelf_number   numeric not null,
-    shelf_name      varchar(80),
+    shelf_category      varchar(80),
     height          numeric,
     serial_number   numeric(9, 0) not null, 
     manuf           varchar(80) not null,
     unique(shelf_number, serial_number, manuf),
+    constraint fk_shelf_category foreign key(shelf_category) references(category),
     constraint pk_shelf primary key(shelf_number, serial_number, manuf),
     constraint fk_shelf foreign key(serial_number, manuf) references IVM(serial_number, manuf));
 
@@ -202,20 +203,39 @@ INSERT INTO instaled_at VALUES (123456789, "Afen", "Açores", "Vila Franca do Ca
 INSERT INTO instaled_at VALUES (123456789, "Zoomgu", "Lisboa", "Cascais");
 INSERT INTO instaled_at VALUES (123456789, "TCN", "Minas Gerais", "Nova Lima");
 
-INSERT INTO shelf VALUES (1, "Grains-1", 4, 123456789, "Afen");
-INSERT INTO shelf VALUES (2, "Grains-2", 3, 123456789, "Afen");
-INSERT INTO shelf VALUES (3, "Juice-1", 2, 123456789, "Afen");
-INSERT INTO shelf VALUES (4, "Water-1", 1, 123456789, "Afen");
+INSERT INTO shelf VALUES (1, "Grains", 4, 123456789, "Afen"); -- Darwin
+INSERT INTO shelf VALUES (2, "Grains", 3, 123456789, "Afen"); -- Darwin
+INSERT INTO shelf VALUES (3, "Juice", 2, 123456789, "Afen"); -- Gabigol
+INSERT INTO shelf VALUES (4, "Water", 1, 123456789, "Afen"); -- Gabigol
 
-INSERT INTO shelf VALUES (1, "Beef-1", 3, 145688795, "Zoomgu");
-INSERT INTO shelf VALUES (2, "Pork-1", 2, 145688795, "Zoomgu");
-INSERT INTO shelf VALUES (3, "Soda-1", 1, 145688795, "Zoomgu");
+INSERT INTO shelf VALUES (1, "Beef", 3, 145688795, "Zoomgu"); -- Darwin
+INSERT INTO shelf VALUES (2, "Pork", 2, 145688795, "Zoomgu"); -- Darwin
+INSERT INTO shelf VALUES (3, "Soda", 1, 145688795, "Zoomgu"); -- David Luiz
 
-INSERT INTO shelf VALUES (1, "Beef-1", 4, 418597465, "TCN");
-INSERT INTO shelf VALUES (2, "Pork-1", 3, 418597465, "TCN");
-INSERT INTO shelf VALUES (3, "Juice-1", 2, 418597465, "TCN");
-INSERT INTO shelf VALUES (4, "Juice-2", 1, 418597465, "TCN");
+INSERT INTO shelf VALUES (1, "Beef", 4, 418597465, "TCN"); -- David Luiz
+INSERT INTO shelf VALUES (2, "Pork", 3, 418597465, "TCN"); -- David Luiz
+INSERT INTO shelf VALUES (3, "Juice", 2, 418597465, "TCN"); -- Gabigol
+INSERT INTO shelf VALUES (4, "Juice", 1, 418597465, "TCN"); -- Gabigol
 
 INSERT INTO retailer VALUES (123456789, "Darwin");
 INSERT INTO retailer VALUES (987654321, "Gabigol");
 INSERT INTO retailer VALUES (456486987, "David Luiz");
+
+--INSERT INTO planogram VALUES (faces, units, loc, ean, serial_number, shelf_number, manuf);
+
+--INSERT INTO responsable_for VALUES (serial_number, manuf, TIN, category_name);
+INSERT INTO responsable_for VALUES (123456789, "Afen", 123456789, "Grains"); -- Darwin
+INSERT INTO responsable_for VALUES (145688795, "Zoomgu", 123456789, "Beef"); -- Darwin
+INSERT INTO responsable_for VALUES (145688795, "Zoomgu", 123456789, "Pork"); -- Darwin
+
+INSERT INTO responsable_for VALUES (123456789, "Afen", 987654321, "Juice"); -- Gabigol
+INSERT INTO responsable_for VALUES (123456789, "Afen", 987654321, "Water"); -- Gabigol
+INSERT INTO responsable_for VALUES (418597465, "TCN", 987654321, "Juice"); -- Gabigol
+
+INSERT INTO responsable_for VALUES (145688795, "Zoomgu", 456486987, "Soda"); -- David Luiz
+INSERT INTO responsable_for VALUES (418597465, "TCN", 456486987, "Beef"); -- David Luiz
+INSERT INTO responsable_for VALUES (418597465, "TCN", 456486987, "Pork"); -- David Luiz
+
+INSERT INTO replenishment_event VALUES (2626993202313, 145688795, 1, "Zoomgu", 12456789, "2022-06-15-12:00:00");
+INSERT INTO replenishment_event VALUES (EAN, serial_number, shelf_number, manuf, TIN, instant);
+INSERT INTO replenishment_event VALUES (EAN, serial_number, shelf_number, manuf, TIN, instant);
