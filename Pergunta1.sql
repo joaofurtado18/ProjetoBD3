@@ -94,10 +94,10 @@ create table planogram
     (faces          numeric,
     units           numeric,
     loc             varchar(80),
-    EAN             numeric(13, 0) not null unique,
+    EAN             numeric(13, 0) not null,
     serial_number   numeric(9, 0) not null, 
-    shelf_number    numeric not null unique,
-    manuf           varchar(80) not null unique,
+    shelf_number    numeric not null,
+    manuf           varchar(80) not null,
     constraint pk_planogram primary key(EAN, shelf_number, serial_number, manuf),
     constraint fk_planogram_EAN foreign key(EAN) references product(EAN),
     constraint fk_planogram_shelf foreign key(serial_number, shelf_number, manuf) references shelf(serial_number, shelf_number, manuf));
@@ -216,11 +216,9 @@ INSERT INTO shelf VALUES (1, 'Grains', 4, 123456789, 'Afen'); -- Darwin
 INSERT INTO shelf VALUES (2, 'Grains', 3, 123456789, 'Afen'); -- Darwin
 INSERT INTO shelf VALUES (3, 'Juice', 2, 123456789, 'Afen'); -- Gabigol
 INSERT INTO shelf VALUES (4, 'Water', 1, 123456789, 'Afen'); -- Gabigol
-
 INSERT INTO shelf VALUES (1, 'Beef', 3, 145688795, 'Zoomgu'); -- Darwin
 INSERT INTO shelf VALUES (2, 'Pork', 2, 145688795, 'Zoomgu'); -- Darwin
 INSERT INTO shelf VALUES (3, 'Soda', 1, 145688795, 'Zoomgu'); -- David Luiz
-
 INSERT INTO shelf VALUES (1, 'Beef', 4, 418597465, 'TCN'); -- David Luiz
 INSERT INTO shelf VALUES (2, 'Pork', 3, 418597465, 'TCN'); -- David Luiz
 INSERT INTO shelf VALUES (3, 'Juice', 2, 418597465, 'TCN'); -- Gabigol
@@ -230,19 +228,22 @@ INSERT INTO retailer VALUES (123456789, 'Darwin');
 INSERT INTO retailer VALUES (987654321, 'Gabigol');
 INSERT INTO retailer VALUES (456486987, 'David Luiz');
 
---INSERT INTO planogram VALUES (faces, units, loc, ean, serial_number, shelf_number, manuf);
+INSERT INTO planogram VALUES (3, 10, 1, 4187594148155, 123456789, 2, 'Afen');
+INSERT INTO planogram VALUES (5, 15, 1, 2626993202313, 123456789, 3, 'Afen');
+INSERT INTO planogram VALUES (5, 25, 1, 2490188531647, 145688795, 1, 'Zoomgu');
+INSERT INTO planogram VALUES (5, 20, 1, 5307070792591, 145688795, 2, 'Zoomgu');
+INSERT INTO planogram VALUES (6, 30, 1, 7845314658489, 145688795, 3, 'Zoomgu');
+INSERT INTO planogram VALUES (7, 35, 1, 9174515684762, 418597465, 3, 'TCN');
 
---INSERT INTO responsable_for VALUES (serial_number, manuf, TIN, category_name);
 INSERT INTO responsable_for VALUES (123456789, 'Afen', 123456789, 'Grains'); -- Darwin
 INSERT INTO responsable_for VALUES (123456789, 'Zoomgu', 987654321, 'Juice'); -- Gabigol
 INSERT INTO responsable_for VALUES (123456789, 'TCN', 987654321, 'Water'); -- Gabigol
 INSERT INTO responsable_for VALUES (145688795, 'Afen', 123456789, 'Beef'); -- Darwin
 INSERT INTO responsable_for VALUES (145688795, 'Zoomgu', 123456789, 'Pork'); -- Darwin
-INSERT INTO responsable_for VALUES (145688795, 'TCN', 456486987, 'Soda'); -- David Luiz
 INSERT INTO responsable_for VALUES (418597465, 'Afen', 987654321, 'Juice'); -- Gabigol
-INSERT INTO responsable_for VALUES (418597465, 'Zoomgu', 456486987, 'Beef'); -- David Luiz
-INSERT INTO responsable_for VALUES (418597465, 'TCN', 456486987, 'Pork'); -- David Luiz
+INSERT INTO responsable_for VALUES (418597465, 'TCN', 456486987, 'Food'); -- David Luiz
 
---INSERT INTO replenishment_event VALUES (2626993202313, 145688795, 1, 'Zoomgu', 12456789, '2022-06-15-12:00:00');
---INSERT INTO replenishment_event VALUES (1235468749101, 123456789, 2, 'Afen', 987654321, '2022-04-29-13:00:00');
---INSERT INTO replenishment_event VALUES (9174515684762, 418597465, 3, 'TCN', 456486987, '2022-03-01-22:00:00');
+
+INSERT INTO replenishment_event VALUES (2490188531647, 145688795, 1, 'Zoomgu', 123456789, '2022-06-15-12:00:00');
+INSERT INTO replenishment_event VALUES (2626993202313, 123456789, 3, 'Afen', 987654321, '2022-04-29-13:00:00');
+INSERT INTO replenishment_event VALUES (9174515684762, 418597465, 3, 'TCN', 456486987, '2022-03-01-22:00:00');
