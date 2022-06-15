@@ -59,8 +59,9 @@ create table has_category
    constraint fk_has_category_name foreign key(category_name) references category(category_name));
 
 create table IVM
-    (serial_number      numeric(9, 0) not null unique,
-    manuf               varchar(80) not null unique,
+    (serial_number      numeric(9, 0) not null,
+    manuf               varchar(80) not null,
+    unique(serial_number, manuf),
     constraint pk_IVM primary key(serial_number, manuf));
 
 create table retail_point
@@ -127,3 +128,40 @@ create table replenishment_event
     constraint pk_replenishment_event primary key(EAN, shelf_number, serial_number, manuf, instant),
     constraint fk_replenishment_event_EAN foreign key(EAN, serial_number, shelf_number, manuf) references planogram(EAN, serial_number, shelf_number, manuf),
     constraint fk_replenishment_event_TIN foreign key(TIN) references retailer(TIN));
+
+INSERT INTO category VALUES ("Food");
+INSERT INTO category VALUES ("Beverages");
+INSERT INTO category VALUES ("Perishable");
+INSERT INTO category VALUES ("Non Perishable");
+INSERT INTO category VALUES ("Animal Meat");
+INSERT INTO category VALUES ("Grains");
+INSERT INTO category VALUES ("Bread");
+INSERT INTO category VALUES ("Beef");
+INSERT INTO category VALUES ("Pork");
+INSERT INTO category VALUES ("Water");
+INSERT INTO category VALUES ("Juice");
+INSERT INTO category VALUES ("Soda");
+
+INSERT INTO super_category VALUES ("Food");
+INSERT INTO super_category VALUES ("Beverages");
+INSERT INTO super_category VALUES ("Perishable");
+INSERT INTO super_category VALUES ("Non Perishable");
+INSERT INTO super_category VALUES ("Animal Meat");
+
+INSERT INTO simple_category VALUES ("Grains");
+INSERT INTO simple_category VALUES ("Bread");
+INSERT INTO simple_category VALUES ("Beef");
+INSERT INTO simple_category VALUES ("Pork");
+INSERT INTO simple_category VALUES ("Water");
+INSERT INTO simple_category VALUES ("Juice");
+INSERT INTO simple_category VALUES ("Soda");
+
+INSERT INTO has_other VALUES ("Food", "Perishable");
+INSERT INTO has_other VALUES ("Food", "Non Perishable");
+INSERT INTO has_other VALUES ("Beverages", "Water");
+INSERT INTO has_other VALUES ("Beverages", "Juice");
+INSERT INTO has_other VALUES ("Beverages", "Soda");
+INSERT INTO has_other VALUES ("Perishable", "Animal Meat");
+INSERT INTO has_other VALUES ("Non Perishable", "Grains");
+INSERT INTO has_other VALUES ("Animal Meat", "Beef");
+INSERT INTO has_other VALUES ("Animal Meat", "Pork");
