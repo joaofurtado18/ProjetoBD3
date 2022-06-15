@@ -165,3 +165,57 @@ INSERT INTO has_other VALUES ("Perishable", "Animal Meat");
 INSERT INTO has_other VALUES ("Non Perishable", "Grains");
 INSERT INTO has_other VALUES ("Animal Meat", "Beef");
 INSERT INTO has_other VALUES ("Animal Meat", "Pork");
+
+INSERT INTO product VALUES (1235468749101, "Whole Grain", "Bread");
+INSERT INTO product VALUES (4187594148155, "White", "Bread");
+INSERT INTO product VALUES (2626993202313, "Ribeye", "Beef");
+INSERT INTO product VALUES (5307070792591, "New York Strip", "Beef");
+INSERT INTO product VALUES (2490188531647, "Ham", "Pork");
+INSERT INTO product VALUES (2513002361404, "Rice", "Grains");
+INSERT INTO product VALUES (4802108759880, "Beans", "Grains");
+INSERT INTO product VALUES (5353340572858, "Alcaline", "Water");
+INSERT INTO product VALUES (4584874782319, "Orange", "Juice");
+INSERT INTO product VALUES (9174515684762, "Raspberry", "Juice");
+INSERT INTO product VALUES (7845314658489, "Coca-Cola", "Soda");
+
+INSERT INTO has_category VALUES (1235468749101,  "Bread");
+INSERT INTO has_category VALUES (4187594148155, "Bread");
+INSERT INTO has_category VALUES (2626993202313, "Beef");
+INSERT INTO has_category VALUES (5307070792591, "Beef");
+INSERT INTO has_category VALUES (2490188531647, "Pork");
+INSERT INTO has_category VALUES (2513002361404, "Grains");
+INSERT INTO has_category VALUES (4802108759880, "Grains");
+INSERT INTO has_category VALUES (5353340572858, "Water");
+INSERT INTO has_category VALUES (4584874782319, "Juice");
+INSERT INTO has_category VALUES (9174515684762, "Juice");
+INSERT INTO has_category VALUES (7845314658489, "Soda");
+
+INSERT INTO ivm VALUES (123456789, "Afen");
+INSERT INTO ivm VALUES (145688795, "Zoomgu");
+INSERT INTO ivm VALUES (418597465, "TCN");
+
+INSERT INTO retail_point VALUES ("Ponto Açores", "Açores", "Vila Franca do Campo");
+INSERT INTO retail_point VALUES ("Ponto Cascais", "Lisboa", "Cascais");
+INSERT INTO retail_point VALUES ("Ponto Nova Lima", "Minas Gerais", "Nova Lima");
+
+INSERT INTO instaled_at VALUES (123456789, "Afen", "Açores", "Vila Franca do Campo");
+INSERT INTO instaled_at VALUES (123456789, "Zoomgu", "Lisboa", "Cascais");
+INSERT INTO instaled_at VALUES (123456789, "TCN", "Minas Gerais", "Nova Lima");
+
+INSERT INTO shelf VALUES (1, "Grains-1", 4, 123456789, "Afen");
+INSERT INTO shelf VALUES (2, "Grains-2", 3, 123456789, "Afen");
+INSERT INTO shelf VALUES (3, "Juice-1", 2, 123456789, "Afen");
+INSERT INTO shelf VALUES (4, "Water-1", 1, 123456789, "Afen");
+
+INSERT INTO shelf VALUES (1, "Beef-1", 3, 145688795, "Zoomgu");
+INSERT INTO shelf VALUES (2, "Pork-1", 2, 145688795, "Zoomgu");
+INSERT INTO shelf VALUES (3, "Soda-1", 1, 145688795, "Zoomgu");
+
+INSERT INTO shelf VALUES (1, "Beef-1", 4, 418597465, "TCN");
+INSERT INTO shelf VALUES (2, "Pork-1", 3, 418597465, "TCN");
+INSERT INTO shelf VALUES (3, "Juice-1", 2, 418597465, "TCN");
+INSERT INTO shelf VALUES (4, "Juice-2", 1, 418597465, "TCN");
+
+INSERT INTO retailer VALUES (123456789, "Darwin");
+INSERT INTO retailer VALUES (987654321, "Gabigol");
+INSERT INTO retailer VALUES (456486987, "David Luiz");
