@@ -105,10 +105,10 @@ create table responsable_for
    (serial_number       numeric(9, 0) not null unique,
     manuf               varchar(80) not null unique,
     TIN                 numeric(9, 0) not null unique,
-    category            varchar(80) not null unique, 
+    category_name       varchar(80) not null unique, 
     constraint fk_responsable_for_IVM foreign key(serial_number, manuf) references IVM(serial_number, manuf),
     constraint fk_responsable_for_TIN foreign key(TIN) references retailer(TIN),
-    constraint fk_responsable_for_category foreign key(category) references category(category_name));
+    constraint fk_responsable_for_category foreign key(category_name) references category(category_name));
 
 create table replenishment_event
    (EAN     numeric(13, 0) not null unique,
