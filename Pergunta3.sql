@@ -1,3 +1,15 @@
+-- QUERIE 1
+SELECT retailer_name 
+FROM responsable_for 
+NATURAL JOIN retailer 
+GROUP BY retailer_name 
+HAVING COUNT(*) >= ALL 
+        (SELECT COUNT(*) 
+        FROM responsable_for 
+        NATURAL JOIN retailer 
+        GROUP BY retailer_name);
+
+
 -- QUERIE 2
 SELECT DISTINCT retailer_name
 FROM retailer 
