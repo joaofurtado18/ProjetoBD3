@@ -23,3 +23,10 @@ WHERE category_name IN (
 SELECT EAN FROM product 
 EXCEPT
 SELECT EAN FROM replenishment_event;
+
+-- QUERIE 4
+SELECT EAN 
+FROM replenishment_event 
+NATURAL JOIN product 
+GROUP BY EAN 
+HAVING COUNT(DISTINCT TIN) = 1;
