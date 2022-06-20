@@ -1,17 +1,17 @@
-drop table category cascade;
-drop table simple_category cascade;
-drop table super_category cascade;
-drop table has_other cascade;
-drop table product cascade;
-drop table has_category cascade;
-drop table IVM cascade;
-drop table retail_point cascade;
-drop table instaled_at cascade;
-drop table shelf cascade;
-drop table planogram cascade;
-drop table retailer cascade;
-drop table responsable_for cascade;
-drop table replenishment_event cascade;
+drop table if exists category cascade;
+drop table if exists simple_category cascade;
+drop table if exists super_category cascade;
+drop table if exists has_other cascade;
+drop table if exists product cascade;
+drop table if exists has_category cascade;
+drop table if exists IVM cascade;
+drop table if exists retail_point cascade;
+drop table if exists instaled_at cascade;
+drop table if exists shelf cascade;
+drop table if exists planogram cascade;
+drop table if exists retailer cascade;
+drop table if exists responsable_for cascade;
+drop table if exists replenishment_event cascade;
 
 ----------------------------------------
 -- Table Creation
@@ -64,16 +64,16 @@ create table IVM
 
 create table retail_point
     (retail_point_name  varchar(80) not null unique,
-    district            varchar(80),
-    county              varchar(80),
+    district            varchar(80) not null,
+    county              varchar(80) not null,
     unique(district, county),
     constraint pk_retail_point primary key(retail_point_name));
 
 create table instaled_at
     (serial_number      numeric(9, 0) not null,
     manuf               varchar(80) not null,
-    district            varchar(80),
-    county              varchar(80),
+    district            varchar(80) not null,
+    county              varchar(80) not null,
     unique(district, county),
     constraint pk_instaled_at primary key(serial_number, manuf),
     constraint fk_instaled_at_IVM foreign key(serial_number, manuf) references IVM(serial_number, manuf),
@@ -81,8 +81,8 @@ create table instaled_at
 
 create table shelf
     (shelf_number   numeric not null,
-    shelf_category  varchar(80),
-    height          numeric,
+    shelf_category  varchar(80) not null,
+    height          numeric not null,
     serial_number   numeric(9, 0) not null, 
     manuf           varchar(80) not null,
     unique(shelf_number, serial_number, manuf),
@@ -91,9 +91,9 @@ create table shelf
     constraint fk_shelf foreign key(serial_number, manuf) references IVM(serial_number, manuf));
 
 create table planogram
-    (faces          numeric,
-    units           numeric,
-    loc             varchar(80),
+    (faces          numeric not null,
+    units           numeric not null,
+    loc             varchar(80) not null,
     EAN             numeric(13, 0) not null,
     serial_number   numeric(9, 0) not null, 
     shelf_number    numeric not null,

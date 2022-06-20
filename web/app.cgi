@@ -94,4 +94,42 @@ def list_replenishment_event(serial_number):
         cursor.close()
         dbConn.close()
         
+@app.route('/retailer')
+def list_retailer():
+    dbConn = None
+    cursor = None
+    
+    try:
+        dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+        cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        query = "SELECT * FROM retailer;"
+        cursor.execute(query)
+        return render_template("retailer.html", cursor=cursor)
+    
+    except Exception as e:
+        return str(e)  # Renders a page with the error.
+    
+    finally:
+        cursor.close()
+        dbConn.close()
+        
+# @app.route('/remove_retailer/<TIN>')
+# def remove_retailer(TIN):
+#     dbConn = None
+#     cursor = None
+    
+#     try:
+#         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+#         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+#         query = 'DELETE FROM retailer WHERE TIN = %s' % (TIN)
+#         cursor.execute(query)
+#         return render_template("category.html", cursor=cursor)
+    
+#     except Exception as e:
+#         return str(e)  # Renders a page with the error.
+    
+#     finally:
+#         cursor.close()
+#         dbConn.close()
+        
 CGIHandler().run(app)
