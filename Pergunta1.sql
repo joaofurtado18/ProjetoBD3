@@ -53,6 +53,7 @@ create table product
 create table has_category
    (EAN 	            numeric(13, 0) not null unique,
    category_name 	    varchar(80)	not null,
+   constraint pk_has_category primary key(EAN, category_name),
    constraint fk_has_category_EAN foreign key(EAN) references product(EAN),  		
    constraint fk_has_category_name foreign key(category_name) references category(category_name));
 
@@ -74,10 +75,11 @@ create table instaled_at
     manuf               varchar(80) not null,
     district            varchar(80) not null,
     county              varchar(80) not null,
+    retail_point_name  varchar(80) not null unique,
     unique(district, county),
     constraint pk_instaled_at primary key(serial_number, manuf),
     constraint fk_instaled_at_IVM foreign key(serial_number, manuf) references IVM(serial_number, manuf),
-    constraint fk_instaled_at_retail_point foreign key(district, county) references retail_point(district, county));
+    constraint fk_instaled_at_retail_point foreign key(retail_point_name) references retail_point(retail_point_name));
 
 create table shelf
     (shelf_number   numeric not null,
@@ -209,9 +211,9 @@ INSERT INTO retail_point VALUES ('Ponto Açores', 'Açores', 'Vila Franca do Cam
 INSERT INTO retail_point VALUES ('Ponto Cascais', 'Lisboa', 'Cascais');
 INSERT INTO retail_point VALUES ('Ponto Nova Lima', 'Minas Gerais', 'Nova Lima');
 
-INSERT INTO instaled_at VALUES (123456789, 'Afen', 'Açores', 'Vila Franca do Campo');
-INSERT INTO instaled_at VALUES (145688795, 'Zoomgu', 'Lisboa', 'Cascais');
-INSERT INTO instaled_at VALUES (418597465, 'TCN', 'Minas Gerais', 'Nova Lima');
+INSERT INTO instaled_at VALUES (123456789, 'Afen', 'Açores', 'Vila Franca do Campo', 'Ponto Açores');
+INSERT INTO instaled_at VALUES (145688795, 'Zoomgu', 'Lisboa', 'Cascais', 'Ponto Cascais');
+INSERT INTO instaled_at VALUES (418597465, 'TCN', 'Minas Gerais', 'Nova Lima', 'Ponto Nova Lima');
 
 INSERT INTO shelf VALUES (1, 'Grains', 4, 123456789, 'Afen'); -- Darwin
 INSERT INTO shelf VALUES (2, 'Grains', 3, 123456789, 'Afen'); -- Darwin
