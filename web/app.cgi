@@ -32,32 +32,22 @@ def list_categories():
         cursor.close()
         dbConn.close()
         
-@app.route('/remove')
-def remove_categories():
-    try:
-        return render_template("remove.html", params=request.args)
-    except Exception as e:
-        return str(e)
-
-@app.route('/update', methods=["POST"])
-def remove_category():
-    dbConn=None
-    cursor=None
+@app.route('/remove_category/<category_name>')
+def remove_category(category_name):
+    dbConn = None
+    cursor = None
     
     try:
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
-        cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
-        category_name = request.form["category_name"]
-        query = 'DELETE FROM category WHERE category_name = %s'
-        data = (category_name)
-        cursor.execute(query, data)
-        return query
+        cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        query = 'DELETE FROM category WHERE category_name = %s' % (category_name)
+        cursor.execute(query)
+        return render_template("category.html", cursor=cursor)
     
     except Exception as e:
-        return str(e)
+        return str(e)  # Renders a page with the error.
     
     finally:
-        dbConn.commit()
         cursor.close()
         dbConn.close()
 
