@@ -21,7 +21,7 @@
             <tr>
                 <td>{{ record[0] }}</td>
                 <td>{{ record[1] }}</td>
-                <td><a href="replenishment_event?serial_number={{ record[0] }}">Listar
+                <td><a href={{ url_for('list_replenishment_event', serial_number=record[0]) }}>Listar
                     reposições</a></td>
             </tr>
             {% endfor %}

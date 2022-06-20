@@ -11,6 +11,7 @@
     <table border="2px">
         <thead>
             <tr>
+                <th>product_category</th>
                 <th>units</th>
             </tr>
         </thead>
@@ -18,6 +19,7 @@
             {% for record in cursor %}
             <tr>
                 <td>{{ record[0] }}</td>
+                <td>{{ record[1] }}</td>
             </tr>
             {% endfor %}
         </tbody>

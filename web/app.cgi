@@ -81,29 +81,27 @@ def list_IVM():
         cursor.close()
         dbConn.close()
         
-# @app.route('/replenishment_event')
-# def list_replenishment_event():
-#     dbConn = None
-#     cursor = None
+@app.route('/replenishment_event/<serial_number>')
+def list_replenishment_event(serial_number):
+    dbConn = None
+    cursor = None
     
-#     try:
-#         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
-#         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-#         serial_number = request.form["IVM"]
-#         query = 'SELECT product_category, units \
-#                 FROM replenishment_event \
-#                 NATURAL JOIN product \
-#                 GROUP BY product_category, units, serial_number \
-#                 HAVING serial_number = %s;'
-#         data = (serial_number)
-#         cursor.execute(query, data)
-#         return render_template("replenishments.html", cursor=cursor)
+    try:
+        dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+        cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        query = 'SELECT product_category, units \
+                FROM replenishment_event \
+                NATURAL JOIN product \
+                GROUP BY product_category, units, serial_number \
+                HAVING serial_number = %s' % (serial_number)
+        cursor.execute(query)
+        return render_template("replenishments.html", cursor=cursor)
     
-#     except Exception as e:
-#         return str(e)  # Renders a page with the error.
+    except Exception as e:
+        return str(e)  # Renders a page with the error.
     
-#     finally:
-#         cursor.close()
-#         dbConn.close()
+    finally:
+        cursor.close()
+        dbConn.close()
         
 CGIHandler().run(app)
