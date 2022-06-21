@@ -29,33 +29,33 @@ create table category
 create table simple_category
     (simple_category_name   varchar(80) not null unique,
     constraint pk_simple_category primary key(simple_category_name),
-    constraint fk_simple_category foreign key(simple_category_name) references category(category_name));
+    constraint fk_simple_category foreign key(simple_category_name) references category(category_name)on delete cascade); 
 
 create table super_category
     (super_category_name   varchar(80) not null unique,
     constraint pk_super_category primary key(super_category_name),
-    constraint fk_super_category foreign key(super_category_name) references category(category_name));
+    constraint fk_super_category foreign key(super_category_name) references category(category_name)on delete cascade) ;
 
 create table has_other
     (has_other_super_category   varchar(80)	not null,
     has_other_category          varchar(80)	not null,
     constraint pk_has_other_category primary key(has_other_category),
-    constraint fk_has_other_super_category foreign key(has_other_super_category) references super_category,
-    constraint fk_has_other_category foreign key(has_other_category) references category);
+    constraint fk_has_other_super_category foreign key(has_other_super_category) references super_category on delete cascade,
+    constraint fk_has_other_category foreign key(has_other_category) references category on delete cascade) ;
 
 create table product
    (EAN 	            numeric(13, 0) not null unique,
     descr 	            varchar(80)	not null,
     product_category    varchar(80) not null,
     constraint pk_product primary key(EAN),
-    constraint fk_product_category foreign key(product_category) references category(category_name));
+    constraint fk_product_category foreign key(product_category) references category(category_name)on delete cascade);
 
 create table has_category
    (EAN 	            numeric(13, 0) not null unique,
    category_name 	    varchar(80)	not null,
    constraint pk_has_category primary key(EAN, category_name),
    constraint fk_has_category_EAN foreign key(EAN) references product(EAN),  		
-   constraint fk_has_category_name foreign key(category_name) references category(category_name));
+   constraint fk_has_category_name foreign key(category_name) references category(category_name)on delete cascade); 
 
 create table IVM
     (serial_number      numeric(9, 0) not null,
@@ -88,7 +88,7 @@ create table shelf
     serial_number   numeric(9, 0) not null, 
     manuf           varchar(80) not null,
     unique(shelf_number, serial_number, manuf),
-    constraint fk_shelf_category foreign key(shelf_category) references category(category_name),
+    constraint fk_shelf_category foreign key(shelf_category) references category(category_name) on delete cascade,
     constraint pk_shelf primary key(shelf_number, serial_number, manuf),
     constraint fk_shelf foreign key(serial_number, manuf) references IVM(serial_number, manuf));
 
@@ -101,8 +101,8 @@ create table planogram
     shelf_number    numeric not null,
     manuf           varchar(80) not null,
     constraint pk_planogram primary key(EAN, shelf_number, serial_number, manuf),
-    constraint fk_planogram_EAN foreign key(EAN) references product(EAN),
-    constraint fk_planogram_shelf foreign key(serial_number, shelf_number, manuf) references shelf(serial_number, shelf_number, manuf));
+    constraint fk_planogram_EAN foreign key(EAN) references product(EAN) on delete cascade,
+    constraint fk_planogram_shelf foreign key(serial_number, shelf_number, manuf) references shelf(serial_number, shelf_number, manuf) on delete cascade); 
 
 create table retailer
     (TIN            numeric(9, 0) not null unique,
@@ -117,7 +117,7 @@ create table responsable_for
     constraint pk_responsable_for primary key(serial_number, manuf), 
     constraint fk_responsable_for_IVM foreign key(serial_number, manuf) references IVM(serial_number, manuf),
     constraint fk_responsable_for_TIN foreign key(TIN) references retailer(TIN),
-    constraint fk_responsable_for_category foreign key(category_name) references category(category_name));
+    constraint fk_responsable_for_category foreign key(category_name) references category(category_name) on delete cascade) ;
 
 create table replenishment_event
    (EAN             numeric(13, 0) not null,
@@ -128,7 +128,7 @@ create table replenishment_event
     instant         varchar(80) not null unique,
     units           numeric not null,
     constraint pk_replenishment_event primary key(EAN, shelf_number, serial_number, manuf, instant),
-    constraint fk_replenishment_event_EAN foreign key(EAN, serial_number, shelf_number, manuf) references planogram(EAN, serial_number, shelf_number, manuf),
+    constraint fk_replenishment_event_EAN foreign key(EAN, serial_number, shelf_number, manuf) references planogram(EAN, serial_number, shelf_number, manuf) on delete cascade,
     constraint fk_replenishment_event_TIN foreign key(TIN) references retailer(TIN));
 
 
