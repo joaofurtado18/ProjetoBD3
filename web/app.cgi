@@ -2,14 +2,14 @@
 from unicodedata import category
 from wsgiref.handlers import CGIHandler
 from flask import Flask
-from flask import render_template, request
+from flask import render_template, request, redirect
 import psycopg2
 import psycopg2.extras
 # SGBD configs
 DB_HOST = "db.tecnico.ulisboa.pt"
-DB_USER = "ist199095"
+DB_USER = "ist199078"
 DB_DATABASE = DB_USER
-DB_PASSWORD = "jpyg8678"
+DB_PASSWORD = "root"
 DB_CONNECTION_STRING = "host=%s dbname=%s user=%s password=%s" % (DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD)
 
 app = Flask(__name__)
@@ -40,9 +40,10 @@ def remove_category(category_name):
     try:
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        query = 'DELETE FROM category WHERE category_name = %s' % (category_name)
+        query = 'DELETE FROM category WHERE category_name = \'%s\'' % (category_name)
         cursor.execute(query)
-        return render_template("category.html", cursor=cursor)
+        dbConn.commit()
+        return redirect(f'/~{DB_USER}/app.cgi/') 
     
     except Exception as e:
         return str(e)  # Renders a page with the error.
@@ -131,5 +132,28 @@ def list_retailer():
 #     finally:
 #         cursor.close()
 #         dbConn.close()
-        
+@app.route('/list_subcategories/<category_name>')
+def list_subcat(category_name):
+    dbConn = None
+    cursor = None
+    try:
+        dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+        cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        query = 'WITH RECURSIVE subcat AS ( \
+                SELECT has_other_category, has_other_super_category \
+                        FROM has_other WHERE has_other_super_category = \'%s\' \
+                UNION ALL \
+                    SELECT h.has_other_category, h.has_other_super_category  \
+                    FROM has_other h, subcat s \
+                        WHERE h.has_other_super_category = s.has_other_category	 \
+            ) SELECT has_other_category FROM subcat;' % (category_name) 
+        cursor.execute(query)
+        return render_template("subcat.html", cursor=cursor)
+    
+    except Exception as e:
+        return str(e)
+    finally:
+        cursor.close()
+        dbConn.close()
 CGIHandler().run(app)
+

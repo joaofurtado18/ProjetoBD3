@@ -1,0 +1,3 @@
+has_category não tem chave
+ponto de retalho não tem local mas aparece local no installed at
+uma categoria pode não ter um retalhista responsável ?
