@@ -26,7 +26,7 @@ CREATE OR REPLACE FUNCTION units_planogram_replenishment_proc()
     RETURNS TRIGGER AS
     $$
     BEGIN
-        IF (SELECT units < NEW.units FROM planogram WHERE EAN = NEW.EAN)
+        IF (SELECT units < NEW.units FROM planogram WHERE EAN = NEW.EAN AND shelf_number = NEW.shelf_number AND serial_number = NEW.serial_number)
             THEN RAISE EXCEPTION 'Number of units must be less or equal than the number definied on the planogram';
         END IF;
         RETURN NEW;
