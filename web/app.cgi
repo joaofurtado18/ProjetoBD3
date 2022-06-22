@@ -7,9 +7,9 @@ import psycopg2
 import psycopg2.extras
 # SGBD configs
 DB_HOST = "db.tecnico.ulisboa.pt"
-DB_USER = "ist199078"
+DB_USER = "ist199095"
 DB_DATABASE = DB_USER
-DB_PASSWORD = "root"
+DB_PASSWORD = "qluo4843"
 DB_CONNECTION_STRING = "host=%s dbname=%s user=%s password=%s" % (DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD)
 
 app = Flask(__name__)
@@ -18,6 +18,7 @@ app = Flask(__name__)
 def list_categories():
     dbConn = None
     cursor = None
+    
     try:
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -42,16 +43,44 @@ def remove_category(category_name):
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         query = 'DELETE FROM category WHERE category_name = \'%s\'' % (category_name)
         cursor.execute(query)
-        dbConn.commit()
         return redirect(f'/~{DB_USER}/app.cgi/') 
     
     except Exception as e:
         return str(e)  # Renders a page with the error.
     
     finally:
+        dbConn.commit()
         cursor.close()
         dbConn.close()
-
+        
+@app.route('/new_category')
+def new_category():
+    try:
+        return render_template("add_category.html", params=request.args)
+    except Exception as e:
+        return str(e)
+        
+@app.route('/update_category', methods=["POST"])
+def add_category():
+    dbConn=None
+    cursor=None
+    
+    try:
+        dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+        cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
+        category_name = request.form["category_name"]
+        query = 'INSERT INTO category VALUES (%s)'
+        data=(category_name, )
+        cursor.execute(query, data)
+        return redirect(f'/~{DB_USER}/app.cgi/')
+    
+    except Exception as e:
+        return str(e)
+    
+    finally:
+        dbConn.commit()
+        cursor.close()
+        dbConn.close()
 
 @app.route('/IVM')
 def list_IVM():
@@ -114,28 +143,62 @@ def list_retailer():
         cursor.close()
         dbConn.close()
         
-# @app.route('/remove_retailer/<TIN>')
-# def remove_retailer(TIN):
-#     dbConn = None
-#     cursor = None
+@app.route('/remove_retailer/<TIN>')
+def remove_retailer(TIN):
+    dbConn = None
+    cursor = None
     
-#     try:
-#         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
-#         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-#         query = 'DELETE FROM retailer WHERE TIN = %s' % (TIN)
-#         cursor.execute(query)
-#         return render_template("category.html", cursor=cursor)
+    try:
+        dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+        cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        query = 'DELETE FROM retailer WHERE TIN = \'%s\'' % (TIN)
+        cursor.execute(query)
+        return redirect(f'/~{DB_USER}/app.cgi/retailer')
     
-#     except Exception as e:
-#         return str(e)  # Renders a page with the error.
+    except Exception as e:
+        return str(e)  # Renders a page with the error.
     
-#     finally:
-#         cursor.close()
-#         dbConn.close()
+    finally:
+        dbConn.commit()
+        cursor.close()
+        dbConn.close()
+        
+@app.route('/new_retailer')
+def new_retailer():
+    try:
+        return render_template("add_retailer.html", params=request.args)
+    except Exception as e:
+        return str(e)
+        
+@app.route('/update_retailer', methods=["POST"])
+def add_retailer():
+    dbConn=None
+    cursor=None
+    
+    try:
+        dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+        cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
+        tin = request.form["TIN"]
+        retailer_name = request.form["retailer_name"]
+        query = 'INSERT INTO retailer VALUES (%s, %s)'
+        data=(tin, retailer_name)
+        cursor.execute(query, data)
+        return redirect(f'/~{DB_USER}/app.cgi/retailer')
+    
+    except Exception as e:
+        return str(e)
+    
+    finally:
+        dbConn.commit()
+        cursor.close()
+        dbConn.close()
+
+
 @app.route('/list_subcategories/<category_name>')
 def list_subcat(category_name):
     dbConn = None
     cursor = None
+    
     try:
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -152,8 +215,10 @@ def list_subcat(category_name):
     
     except Exception as e:
         return str(e)
+    
     finally:
         cursor.close()
         dbConn.close()
+        
 CGIHandler().run(app)
 

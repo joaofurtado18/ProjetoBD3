@@ -20,9 +20,8 @@
             {% for record in cursor %}
             <tr>
                 <td>{{ record[0] }}</td>
-                <td><a href={{ url_for('remove_category', category_name=record[0]) }}>Remover
-                    categoria</a></td>
-		<td><a href={{ url_for('list_subcat', category_name=record[0]) }}>Listar subcategorias</a></td>
+                <td><a href={{ url_for('remove_category', category_name=record[0]) }}>Remover categoria</a></td>
+		        <td><a href={{ url_for('list_subcat', category_name=record[0]) }}>Listar subcategorias</a></td>
             </tr>
             {% endfor %}
         </tbody>

@@ -13,7 +13,7 @@
             <tr>
                 <th>TIN</th>
                 <th>retailer_name</th>
-                <!-- <th>Remover retalhista</th> -->
+                <th>Remover retalhista</th>
             </tr>
         </thead>
         <tbody>
@@ -21,6 +21,7 @@
             <tr>
                 <td>{{ record[0] }}</td>
                 <td>{{ record[1] }}</td>
+                <td><a href={{ url_for('remove_retailer', TIN=record[0]) }}>Remover retalhista</a></td>
             </tr>
             {% endfor %}
         </tbody>
