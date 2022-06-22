@@ -125,7 +125,7 @@ create table replenishment_event
     shelf_number    numeric not null,
     manuf           varchar(80) not null,
     TIN             numeric(9, 0) not null,
-    instant         varchar(80) not null unique,
+    instant         TIMESTAMP not null,
     units           numeric not null,
     constraint pk_replenishment_event primary key(EAN, shelf_number, serial_number, manuf, instant),
     constraint fk_replenishment_event_planogram foreign key(EAN, serial_number, shelf_number, manuf) references planogram(EAN, serial_number, shelf_number, manuf) ON DELETE CASCADE,
@@ -249,8 +249,8 @@ INSERT INTO responsable_for VALUES (418597465, 'Afen', 987654321, 'Juice'); -- G
 INSERT INTO responsable_for VALUES (418597465, 'TCN', 456486987, 'Food'); -- David Luiz
 
 
-INSERT INTO replenishment_event VALUES (2490188531647, 145688795, 1, 'Zoomgu', 123456789, '2022-06-15-12:00:00', 10);
-INSERT INTO replenishment_event VALUES (2626993202313, 123456789, 3, 'Afen', 987654321, '2022-04-29-13:00:00', 12);
-INSERT INTO replenishment_event VALUES (2626993202313, 123456789, 4, 'Afen', 987654321, '2022-04-29-14:00:00', 35);
-INSERT INTO replenishment_event VALUES (9174515684762, 418597465, 3, 'TCN', 456486987, '2022-03-01-22:00:00', 11);
-INSERT INTO replenishment_event VALUES (9174515684762, 123456789, 4, 'Afen', 123456789, '2022-03-01-20:00:00', 60);
+INSERT INTO replenishment_event VALUES (2490188531647, 145688795, 1, 'Zoomgu', 123456789, '2022-06-15 12:00:00', 10);
+INSERT INTO replenishment_event VALUES (2626993202313, 123456789, 3, 'Afen', 987654321, '2022-04-29 13:00:00', 12);
+INSERT INTO replenishment_event VALUES (2626993202313, 123456789, 4, 'Afen', 987654321, '2022-04-29 14:00:00', 35);
+INSERT INTO replenishment_event VALUES (9174515684762, 418597465, 3, 'TCN', 456486987, '2022-03-01 22:00:00', 11);
+INSERT INTO replenishment_event VALUES (9174515684762, 123456789, 4, 'Afen', 123456789, '2022-03-01 20:00:00', 60);
