@@ -25,7 +25,11 @@
             </tr>
             {% endfor %}
         </tbody>
+
     </table>
+    <a href = {{url_for('new_retailer')}} > <button>Add Retailer</button> </a>
+    <a href = {{url_for('list_categories')}} > <button>Categories</button> </a>
+    <a href = {{url_for('list_IVM')}} > <button>IVMs</button> </a>
     {% else %}
     <p> Erro: ao obter dados da base de dados!</p>
     {% endif %}

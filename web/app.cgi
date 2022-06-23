@@ -40,7 +40,7 @@ def remove_category(category_name):
     try:
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        query = 'DELETE FROM category WHERE category_name = \'%s\''
+        query = 'DELETE FROM category WHERE category_name = %s'
         data = (category_name,)
         cursor.execute(query, data)
         return redirect(f'/~{DB_USER}/app.cgi/') 
@@ -151,7 +151,7 @@ def list_replenishment_event(serial_number):
                 NATURAL JOIN product \
                 GROUP BY product_category, units, serial_number \
                 HAVING serial_number = %s'
-        data = (serial_number)
+        data = (serial_number,)
         cursor.execute(query, data)
         return render_template("replenishments.html", cursor=cursor)
     

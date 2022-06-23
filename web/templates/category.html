@@ -14,6 +14,7 @@
                 <th>Categoria</th>
                 <th>Remover</th>
 		<th>Listar Subcategorias</th>
+		<th>Adicionar Subcategorias</th>
             </tr>
         </thead>
         <tbody>
@@ -21,11 +22,15 @@
             <tr>
                 <td>{{ record[0] }}</td>
                 <td><a href={{ url_for('remove_category', category_name=record[0]) }}>Remover categoria</a></td>
-		        <td><a href={{ url_for('list_subcat', category_name=record[0]) }}>Listar subcategorias</a></td>
+		<td><a href={{ url_for('list_subcat', category_name=record[0]) }}>Listar subcategorias</a></td>
+		<td><a href={{ url_for('new_subcat', super_category_name=record[0]) }}>Adicionar subcategorias</a></td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+    <a href = {{url_for('new_category')}} > <button>Add Category</button> </a>
+    <a href = {{url_for('list_retailer')}} > <button>Retailers</button> </a>
+    <a href = {{url_for('list_IVM')}} > <button>IVMs</button> </a>
     {% else %}
     <p> Erro: ao obter dados da base de dados!</p>
     {% endif %}

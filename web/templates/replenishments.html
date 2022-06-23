@@ -24,6 +24,7 @@
             {% endfor %}
         </tbody>
     </table>
+    <a href = {{url_for('list_IVM')}} > <button>Voltar</button> </a>
     {% else %}
     <p> Erro: ao obter dados da base de dados!</p>
     {% endif %}
