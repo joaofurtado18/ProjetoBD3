@@ -258,4 +258,3 @@ def list_subcat(category_name):
         dbConn.close()
         
 CGIHandler().run(app)
-
