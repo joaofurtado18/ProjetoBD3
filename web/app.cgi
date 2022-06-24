@@ -27,7 +27,7 @@ def list_categories():
         return render_template("category.html", cursor=cursor)
     
     except Exception as e:
-        return str(e)  # Renders a page with the error.
+        return render_template("error.html", error_message=e)  # Renders a page with the error.
     
     finally:
         cursor.close()
@@ -46,8 +46,7 @@ def remove_category(category_name):
         return redirect(f'/~{DB_USER}/app.cgi/') 
     
     except Exception as e:
-        return str(e)  # Renders a page with the error.
-    
+        return render_template("error.html", error_message=e)  # Renders a page with the error.
     finally:
         dbConn.commit()
         cursor.close()
@@ -58,14 +57,14 @@ def new_category():
     try:
         return render_template("add_category.html", params=request.args)
     except Exception as e:
-        return str(e)
+        return render_template("error.html", error_message=e)  # Renders a page with the error.
 @app.route('/new_subcat/<super_category_name>')
 def new_subcat(super_category_name):
     try:
         session["supercat"] = super_category_name
         return render_template("add_subcat.html", super_category_name=super_category_name)
     except Exception as e:
-        return str(e)
+        return render_template("error.html", error_message=e)  # Renders a page with the error.
 @app.route('/new_subcat/update_subcat', methods=["POST"])
 def add_subcat():
     dbConn=None
@@ -85,7 +84,7 @@ def add_subcat():
         return redirect(f'/~{DB_USER}/app.cgi/')
     
     except Exception as e:
-        return str(e) 
+        return render_template("error.html", error_message=e) 
     
     finally:
         dbConn.commit()
@@ -109,7 +108,7 @@ def add_category():
         return redirect(f'/~{DB_USER}/app.cgi/')
     
     except Exception as e:
-        return str(e)
+        return render_template("error.html", error_message=e)
     
     finally:
         dbConn.commit()
@@ -132,7 +131,7 @@ def list_IVM():
         return render_template("ivm.html", cursor=cursor)
     
     except Exception as e:
-        return str(e)  # Renders a page with the error.
+        return render_template("error.html", error_message=e)  # Renders a page with the error.
     
     finally:
         cursor.close()
@@ -156,7 +155,7 @@ def list_replenishment_event(serial_number):
         return render_template("replenishments.html", cursor=cursor)
     
     except Exception as e:
-        return str(e)  # Renders a page with the error.
+        return render_template("error.html", error_message=e)  # Renders a page with the error.
     
     finally:
         cursor.close()
@@ -175,7 +174,7 @@ def list_retailer():
         return render_template("retailer.html", cursor=cursor)
     
     except Exception as e:
-        return str(e)  # Renders a page with the error.
+        return render_template("error.html", error_message=e)  # Renders a page with the error.
     
     finally:
         cursor.close()
@@ -194,7 +193,7 @@ def remove_retailer(TIN):
         return redirect(f'/~{DB_USER}/app.cgi/retailer')
     
     except Exception as e:
-        return str(e)  # Renders a page with the error.
+        return render_template("error.html", error_message=e)  # Renders a page with the error.
     
     finally:
         dbConn.commit()
@@ -206,7 +205,7 @@ def new_retailer():
     try:
         return render_template("add_retailer.html", params=request.args)
     except Exception as e:
-        return str(e)
+        return render_template("error.html", error_message=e)
         
 @app.route('/update_retailer', methods=["POST"])
 def add_retailer():
@@ -224,7 +223,7 @@ def add_retailer():
         return redirect(f'/~{DB_USER}/app.cgi/retailer')
     
     except Exception as e:
-        return str(e)
+        return render_template("error.html", error_message=e)
     
     finally:
         dbConn.commit()
@@ -252,7 +251,7 @@ def list_subcat(category_name):
         return render_template("subcat.html", cursor=cursor)
     
     except Exception as e:
-        return str(e)
+        return render_template("error.html", error_message=e)
     
     finally:
         cursor.close()
