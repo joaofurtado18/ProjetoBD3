@@ -11,6 +11,10 @@
 % ----------------------------------------------------------------------
 \documentclass[12pt,a4paper]{report}
 \usepackage{latexsym}
+\usepackage{dirtree}
+\usepackage{float}
+
+
 
 % -----------------------------------------------------------------------------
 % The Preamble document contains all the necessary Packages for typesetting
@@ -18,52 +22,7 @@
 % -----------------------------------------------------------------------------
 \input{./IST-UL-Project-Report-Preamble}
 
-
-% \newglossaryentry{ic1}{name=IC-1, description={oordinated Uiersal Time}}
-
-% \newglossaryentry{ic2}{name=IC-2, description={ordinatedUniversal Time}}
-
-% \newglossaryentry{ic3}{name=IC-3, description={oordinatedUnivrsal Time}}
-
-% \newglossaryentry{ic4}{name=IC-4, description={oordinatd Uiversal Time}}
-
-% \newglossaryentry{ic5}{name=IC-5, description={oordinaed Universal Time}}
-
-% \newglossaryentry{ic6}{name=IC-6, description={oordinated Universal Time}}
-
-% \newglossaryentry{ic7}{name=IC-7, description={oordinted Univeral Time}}
-
-% \newglossaryentry{ic8}{name=IC-8, description={oordinated Univeral Time}}
-
-% \newglossaryentry{ic9}{name=IC-9, description={oordinated Universal Time}}
-
-% \makenoidxglossaries
-
-
-
-% \newglossaryentry{maths}
-% {
-% name=mathematics,
-% description={Mathematics is what mathematicians do}
-% }
-
-%   \newglossaryentry{latex}
-%   {
-%   name=latex,
-%   description={Is a markup language specially suited for 
-%   scientific documents}
-% }
-
-
-%   \newglossaryentry{formula}
-%   {
-%   name=formula,
-%   description={A mathematical expression}
-% }
-%   #############################################################################
 \begin{document}
-
-
 
 % Set plain page style (no headers, footer with centered page number)
 \pagestyle{plain}
@@ -74,7 +33,7 @@
 \input{IST-UL-Project-Report-Front_Cover}
 \cleardoublepage
 % ----------------------------------------------------------------------------
-% Table of contents, list of tables, list of figures and nomenclature
+% Table of contents,nn list of tables, list of figures and nomenclature
 % ----------------------------------------------------------------------------
 % Set arabic numbering (1,2,...) after preface
 \setcounter{page}{1}
@@ -85,214 +44,80 @@
 % 
 % #############################################################################
 
-% \section*{Entity-Association Modelation}
+\section*{Application}
 
-% \begin{figure}[htpb]
-%   \centering
-%   \includegraphics[width=1.0\textwidth]{./pictures/cona.pdf} 
-%   \caption{The modelation of the problem, regarding the Entity-Association modelation's theory.}.
-% \end{figure}
+The app can be found over this link: \url{https://web.ist.utl.pt/ist199078/app.cgi/}.
+The file structure:
+\dirtree{%
+.1 web/.
+.2 app.cgi.
+.2 templates/.
+.3 add\_category.html.
+.3 add\_retailer.html.
+.3 add\_subcat.html.
+.3 category.html.
+.3 error.html.
+.3 ivm.html.
+.3 replenishments.html.
+.3 retailer.html.
+.3 subcat.html.
+}
 
-% % \gls
+\section*{Archive's relations}
+The purpose of each file:
 
-% % \printnoidxglossaries
-% \subsection*{Integrity Constraints}
+\renewcommand{\arraystretch}{1.6}
 
-% \begin{itemize}
-% \item (IC-1) A Category cannot be contained in itself.
-
-% \item (IC-2) Cannot exist cycles on the hierarchy of Categories.
-
-% \item (IC-3) The name of the Retailer is unique.
-
-% \item (IC-4) The number of units replenished in a singular event of Replenishement cannot exceed the number of units specified on the Planogram.
-
-% \item (IC-5) A Product can only be replenished in a Shelf where its category is noted.
-
-% \item (IC-6) A Product can only be replenished by the Retailer responsible by Products's category.
-
-% \end{itemize}
-
-\section*{Relational Model}
-
-\begin{itemize}
-  
-\item point\_of\_retail(\underline{address}, name).
-
-\item IVM(\underline{serial\_number}, \underline{manuf})
-  
-\item product(\underline{EAN}, descr)
-  \begin{itemize}
-  \item shelf(\underline{serial\_number}, \underline{manuf}, \underline{nr}, height)
-  \item serial\_number: FK(IVM)
-  \item manuf: FK(IVM)
-  \end{itemize}
-
-\item ambient\_temp\_shelf(\underline{nr})
-  \begin{itemize}
-  \item nr: FK(shelf)
-  \end{itemize}
-
-\item warm\_shelf(\underline{nr})
-  \begin{itemize}
-  \item nr: FK(shelf)
-  \end{itemize}
-  
-\item cold\_shelf(\underline{nr})
-  \begin{itemize}
-  \item nr: FK(shelf)
-  \end{itemize}
-
-\item category(\underline{name})
-  
-\item simple\_category(\underline{name})
-  \begin{itemize}
-  \item name: FK(shelf)
-  \end{itemize}
-
-\item super\_category(\underline{name})
-  \begin{itemize}
-  \item name: FK(shelf)
-  \end{itemize}
-
-\item retailer(\underline{TIN}, name)
-  \begin{itemize}
-  \item UNIQUE(name)
-  \end{itemize}
-  
-\item replenishment\_event(\underline{instant}, units)
-  
-\item installed-at(address, \underline{serial\_number}, \underline{manuf}, nr)
-  \begin{itemize}
-  \item address: FK(point\_of\_retail)
-  \item serial\_number: FK(IVM)
-  \item manuf: FK(IVM)
-    \end{itemize}
-
-\item replenisher\_of(\underline{TIN}, \underline{instant})
-  \begin{itemize}
-  \item TIN: FK(retailer)
-  \item instant: FK(replenishment\_event)
-  \end{itemize}
-  
-\item replenishment(\underline{instant}, \underline{EAN}, \underline{nr})
-  \begin{itemize}
-  \item instant: FK(replenishment\_event)
-  \item EAN: FK(planogram.EAN, planogram.nr)
-  \item nr: FK(planogram.EAN, planogram.nr)
-  \end{itemize}
-  
-\item has(\underline{EAN}, \underline{name})
-  \begin{itemize}
-  \item EAN: FK(product)
-  \item name: FK(category)
-    \end{itemize}
+\begin{table}[H]
+\centering
+\begin{tabular}{{p{0.2\linewidth} | p{0.8\linewidth}}}
+\multicolumn{2}{c}{CGI}                                                                                                                   \\
+app.cgi             & The script executed by the web client, containing render instructions, SQL instructions and the routing of the app. \\
+\multicolumn{2}{c}{Templates}                                                                                                             \\
+add\_category.html  & Template to add a new super category.                                                                               \\
+add\_retailer.html  & Template to add a new retailer.                                                                                     \\
+category.html       & Template to list all the categories, both simple and super.                                                         \\
+error.html          & Template to generate an error.                                                                                      \\
+ivm.html            & Template to list all the IVMs.                                                                                      \\
+replenishments.html & Template to list all the replenishments of an IVM.                                                                  \\
+retailer.html       & Template to list all retailers.                                                                                     \\
+subcat.html         & Template to list all the categories that are categories of the argument(the category chosen).                      
+\end{tabular}
+\end{table}
 
 
-\item planogram(\underline{EAN}, \underline{nr}, faces, units, loc)
-
-\item responsable\_for(\underline{name}, \underline{TIN}, \underline{serial\_number}, \underline{manuf})
-  \begin{itemize}
-  \item name: FK(category)
-  \item TIN: FK(retailer)
-  \item serial\_number: FK(IVM)
-  \item manuf: FK(IVM)
-  \end{itemize}
-  
-\item displayed(\underline{name}, \underline{nr})
-  \begin{itemize}
-  \item name: FK(category)
-  \item nr: FK(category)
-  \end{itemize}
-
-\item of(\underline{nr}, \underline{serial\_number}, \underline{manuf})
-  \begin{itemize}
-  \item nr: FK(shelf)
-  \item serial\_number: FK(IVM)
-  \item manuf: FK(IVM)
-  \end{itemize}
-
-\item has-other(\underline{category\_name}, \underline{super\_category\_name})
-  \begin{itemize}
-  \item category\_name: FK(category.name)
-  \item super\_category\_name: FK(category.name)
-  \end{itemize}
-
-\end{itemize}
-% \item (IC-1) A Category cannot be contained in itself.
-
-% \item (IC-2) Cannot exist cycles in the hierarchy of Categories.
-
-% \item (IC-3) The name of the Retailer is unique.
-
-% \item (IC-4) The number of units replenished in a singular event of Replenishement cannot exceed the number of units specified on the Planogram. The number of units from Replenishment event is always less or equal than the number of units in the Planogram.
-
-% \item (IC-5) A Product can only be replenished in a Shelf where its category is noted.
-
-% \item (IC-6) A Product can only be replenished by the Retailer responsible by Products's category.
-
-\section*{Integrity Constraints}
-\subsection*{Relational Model}
-\begin{itemize}
-\item (IC-1): category\_name is always different from super\_category\_name.
-\item (IC-2): Cannot exist cycles in the hierarchy of Categories.
-\item (IC-3): The number of units replenished in a singular event of Replenishement cannot exceed the number of units specified on the Planogram.
-\item (IC-4): A Product can only be replenished in a Shelf where its category is noted.
-\item (IC-5): A Product can only be replenished by the Retailer responsible by Products's category.
-\item (IC-6): A name can only exist in simple\_category or super\_category.
-\item (IC-7): Every product (EAN) must participate in the has associaton.
-\item (IC-8): EAN can only exist in ambient\_temp\_shelf, warm\_shelf or cold\_shelf.
-\end{itemize}
+\newpage
 
 
+\section*{Indexes}
+Point 7 from the Databases 3rd delivery draft:
 
-\section*{Relational Algebra}
-\begin{enumerate}
-\item[1.] $\pi_{EAN, designacao}(\sigma_{name = "Barras\ de\ Energetico" \land  instant > "2021/12/31" \land units > 10 }(Product \Join Replenishment Event))$
-\item[2.] $\pi_{serial\_number}(\sigma_{EAN = 9002490100070})((Products \Join Planogram)\Join of)$
-\item[3.] $G_{count}() \rightarrow_{c(has-other)}(\sigma_{name = "SopasTake-Away"}(category))$
-\item[4.] $prods \leftarrow _{EAN, Designacao}G_{count() \rightarrow c(replenishment)}$ \\
-  $result \leftarrow G_{max(c)}(prods) \Join prods$
-\end{enumerate}
-
-\section*{SQL}
-\begin{enumerate}
-\item[1.]
 \begin{verbatim}
-SELECT ean, descr
-    FROM product NATURAL JOIN Replenishment_Event
-    WHERE name = "Barras de Energético"
-        AND instant > "2021/12/31"
-        AND units > 10;
+
+
+7.1)
+
+  CREATE INDEX index\_cat\_name ON responsable\_for(category)
+
+
 \end{verbatim}
-\item[2.]
+
+It is not necessary to generate an index for TIN, since it is a primary key of retailer and foreignkey of responsible\_for.
+`P.nome\_cat = 'Frutos'` has a high selectivity pick.
+
+
 \begin{verbatim}
-SELECT serial_number
-    FROM Products NATURAL JOIN Planogram NATURAL JOIN of
-    WHERE ean = 9002490100070; 
-\end{verbatim}
 
-\item[3.]
-\begin{verbatim}
-SELECT COUNT(category_name)
-    FROM has-other
-    WHERE super_category_name = "SopasTake-Away";
-\end{verbatim}
 
-\item[4.]
-  \begin{verbatim}
-SELECT ean, descr
-FROM (
-    SELECT ean, descr, COUNT(instant)
-    FROM product NATURAL JOIN replenishment
-    GROUP BY ean, descr
-) AS table
-WHERE count >= ALL (
-    SELECT count
-    FROM table
-);
-    
+7.2)
+
+  CREATE INDEX index\_cat\_name ON product(product\_category)
+  CREATE INDEX index\_product\_descr ON product(descr)
+  CREATE INDEX index\_cat\_name ON has\_category(category\_name)
+
 
 \end{verbatim}
-\end{enumerate}
+
+It is necessary to generate an index for both product\_category and category\_name because they are foreign keys on other tables that are not product nor has\_catagory.
+We know that the description of the product starts with 'A', so makes sense to use the index.
 \end{document}
